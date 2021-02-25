@@ -1,0 +1,28 @@
+.LoginComponent {
+    display         : flex;
+    justify-content : center;
+    align-content   : center;
+    align-items     : center;
+    margin          : 50px;
+}
+
+.form {
+    display        : flex;
+    flex-direction : column;
+}
+
+.form * {
+    margin : 5px;
+    padding: 5px;
+    border : none;
+    border-radius : 5px;
+}
+
+.form input {
+    opacity : 0.5;
+}
+
+.form button {
+    color : white;
+    background-color : #707070;
+}

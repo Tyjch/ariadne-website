@@ -1,0 +1,28 @@
+
+.NavBar {
+    display          : flex;
+    align-items      : center;
+    justify-content  : space-between;
+    background-color : black;
+}
+
+.links {
+    display     : flex;
+    align-items : center;
+}
+
+.NavBarLink {
+    color           : #dbdbdb;
+    padding         : 10px;
+    text-decoration : none;
+}
+
+.NavBarLinkActive {
+    color           : #ffffff;
+    padding         : 10px;
+    text-decoration : none;
+}
+
+.profile {
+    padding : 0;
+}
