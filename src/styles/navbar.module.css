@@ -26,3 +26,16 @@
 .profile {
     padding : 0;
 }
+
+.auth {
+    color: white;
+    margin : 10px;
+}
+
+.auth span {
+    padding : 5px;
+    margin : 5px;
+    border: thin solid white;
+    border-radius: 5px;
+    font-size : 10px;
+}

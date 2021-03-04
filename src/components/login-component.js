@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Link, Redirect } from "react-router-dom";
+import Cookies from "js-cookie";
 import styles from "../styles/login-form.module.css";
 
 async function getAuthToken(username='tylerchurchill', password='qwerasdf1234') {
@@ -21,6 +23,7 @@ async function getAuthToken(username='tylerchurchill', password='qwerasdf1234') 
 }
 
 function LoginComponent() {
+	const [loggedIn, setLoggedIn] = useState(false);
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 
@@ -28,7 +31,7 @@ function LoginComponent() {
 		// We need to prevent default behavior or else the request will be canceled on submission
 		event.preventDefault();
 		getAuthToken(username, password)
-			.then(response => console.log('submit response:', response))
+			.then(response => { Cookies.set('token', response); setLoggedIn(true) })
 			.catch(error => console.log('submit error:', error))
 	}
 
@@ -49,8 +52,11 @@ function LoginComponent() {
 					autoComplete = {'current-password'}
 					onChange     = {e => setPassword(e.target.value)}
 				/>
-				<button onClick={handleSubmit}> Login </button>
+				<Link to={'/profile'} onClick={handleSubmit}>
+					<button> Login </button>
+				</Link>
 			</form>
+			{ loggedIn ? <Redirect to={'/profile'} /> : null }
 		</div>
 	)
 }
