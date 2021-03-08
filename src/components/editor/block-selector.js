@@ -1,6 +1,6 @@
 import React from "react";
 import { matchSorter } from "match-sorter";
-import styles from "../styles/block-selector.module.css";
+import styles from "../../styles/block-selector.module.css";
 
 const allowedTags = [
 	{

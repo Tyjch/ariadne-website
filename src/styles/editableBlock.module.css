@@ -1,0 +1,8 @@
+.EditableBlock {
+    display : flex;
+    padding : 5px 0;
+}
+
+.DragHandle {
+    margin : 0 10px ;
+}
