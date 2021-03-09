@@ -1,8 +1,13 @@
 .EditableBlock {
-    display : flex;
-    padding : 5px 0;
+    padding     : 5px 3px;
+    display     : flex;
+    align-items : center;      /* Aligns the drag handle with the block content */
+    position    : relative;    /* Needed for z-index when dragging by handle */
 }
 
 .DragHandle {
-    margin : 0 10px ;
+    margin          : 10px;
+    display         : flex;    /* Needed to center icon in the exact center */
+    align-items     : center;  /* Centers the icons within this div vertically */
+    justify-content : center;  /* Centers the icon within this div horizontally */
 }

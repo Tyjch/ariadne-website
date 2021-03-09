@@ -1,69 +1,69 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ContentEditable from "react-contenteditable";
 import { useRefCallback } from "../../../hooks/useRefCallback.ts";
-
-// class TextBlock extends React.Component {
-//
-// 	// CONSTRUCTOR
-// 	constructor(props) {
-// 		super(props);
-// 		this.onChange = this.onChange.bind(this);
-// 		this.ref      = React.createRef();
-// 		this.state    = {
-// 			content : ''
-// 		};
-// 	}
-//
-// 	// LIFECYCLE METHODS
-// 	componentDidMount() {
-// 		this.setState({ content : this.props.content });
-// 	}
-// 	componentDidUpdate(prevProps, prevState) {
-// 		if (prevState.content !== this.state.content) {
-// 			this.props.updatePage({
-// 				id   : this.props.id,
-// 				type : this.props.type,
-// 				data : {
-// 					content : this.state.content
-// 				}
-// 			})
-// 		}
-// 	}
-//
-// 	// EVENT HANDLERS
-// 	onChange(e) {
-// 		this.setState({ content : e.target.value });
-// 	}
-//
-// 	// RENDERER
-// 	render() {
-// 		console.log('TextBlock:', this.props);
-// 		return (
-// 			<ContentEditable
-// 				innerRef = {this.ref}
-// 				html     = {this.props.content}
-// 				tagName  = {'div'}
-// 				onChange = {this.onChange}
-// 			/>
-// 		)
-// 	}
-// }
+import styles from "../../../styles/textBlock.module.css";
 
 function TextBlock(props) {
-	const [content, setContent] = useState(props.content);
 
-	const handleChange = useRefCallback((event) => {
+	const ref = useRef();
+
+	const [content, setContent] = useState(props.content);
+	const [prevKey, setPrevKey] = useState('');
+
+	const handleChange = useRefCallback(event => {
 		setContent(event.target.value);
-	}, []);
-	const handleBlur   = useRefCallback(() => {
-		console.log(content);
+	}, [props, content]);
+	const onKeyDown    = useRefCallback(event => {
+		switch (event.key) {
+			case '/'         : {
+				break;
+			}
+			case 'Enter'     : {
+				if (prevKey !== "Shift") {
+					event.preventDefault();
+					props.insertBlock({
+						id  : props.id,
+						ref : ref
+					});
+				}
+				break;
+			}
+			case 'Backspace' : {
+				console.log('content:', content);
+				if (!content) {
+					event.preventDefault();
+					props.removeBlock({
+						id  : props.id,
+						ref : ref
+					});
+				}
+				break;
+			}
+			default          : {
+				// do nothing
+			}
+		}
+		setPrevKey(event.key);
+	}, [props, content]);
+
+	useEffect(() => {
+		props.updatePage({
+			id   : props.id,
+			type : 'text',
+			data : {
+				content : content
+			}
+		});
 	}, [content]);
 
 	return (
 		<ContentEditable
-			html     = {content}
-			onBlur   = {handleBlur}
-			onChange = {handleChange}
+			className = {styles.TextBlock}
+			id        = {props.id}
+			ref       = {ref}
+			html      = {content}
+			onChange  = {handleChange}
+			onKeyDown = {onKeyDown}
 		/>
 	);
 

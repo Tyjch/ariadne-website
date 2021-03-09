@@ -1,0 +1,10 @@
+.TextBlock {
+    outline       : 0 solid transparent;
+    border-radius : 3px;
+    min-width     : 70vw;
+    padding       : 5px;
+}
+
+.TextBlock:focus {
+    /*background: red;*/
+}
