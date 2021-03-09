@@ -1,24 +1,37 @@
 import React, { useState, useEffect, useRef } from "react";
 import ContentEditable from "react-contenteditable";
 import { useRefCallback } from "../../../hooks/useRefCallback.ts";
+import { getCaretCoordinates } from "../../../utilities/editor";
 import styles from "../../../styles/textBlock.module.css";
+import {BlockSelectionMenu} from "../blockSelectionMenu";
+
 
 function TextBlock(props) {
 
+	// REFS
 	const ref = useRef();
 
-	const [content, setContent] = useState(props.content);
-	const [prevKey, setPrevKey] = useState('');
+	// STATE
+	const [content, setContent]     = useState(props.content);
+	const [prevKey, setPrevKey]     = useState('');
+	const [menuState, setMenuState] = useState({
+		isOpen   : false,
+		position : {
+			x : null,
+			y : null
+		}
+	});
 
+	// CALLBACKS
 	const handleChange = useRefCallback(event => {
 		setContent(event.target.value);
 	}, [props, content]);
 	const onKeyDown    = useRefCallback(event => {
 		switch (event.key) {
-			case '/'         : {
+			case '/': {
 				break;
 			}
-			case 'Enter'     : {
+			case 'Enter': {
 				if (prevKey !== "Shift") {
 					event.preventDefault();
 					props.insertBlock({
@@ -28,8 +41,7 @@ function TextBlock(props) {
 				}
 				break;
 			}
-			case 'Backspace' : {
-				console.log('content:', content);
+			case 'Backspace': {
 				if (!content) {
 					event.preventDefault();
 					props.removeBlock({
@@ -39,13 +51,41 @@ function TextBlock(props) {
 				}
 				break;
 			}
-			default          : {
+			default: {
 				// do nothing
 			}
 		}
 		setPrevKey(event.key);
 	}, [props, content]);
+	const onKeyUp      = useRefCallback(event => {
+		if (event.key === '/') {
+			openMenu();
+		}
+	}, []);
 
+	// METHODS
+	function openMenu(arg) {
+		console.info('openMenu()');
+		const { x, y } = getCaretCoordinates();
+		setMenuState({
+			isOpen   : true,
+			position : { x, y }
+		});
+		document.addEventListener('click', closeMenu);
+	}
+	function closeMenu(arg) {
+		console.info('closeMenu()');
+		setMenuState({
+			isOpen   : false,
+			position : { x: null, y: null }
+		});
+		document.removeEventListener('click', closeMenu);
+	}
+	function onBlockSelect(arg) {
+		console.info('onBlockSelect()');
+	}
+
+	// EFFECTS
 	useEffect(() => {
 		props.updatePage({
 			id   : props.id,
@@ -56,7 +96,14 @@ function TextBlock(props) {
 		});
 	}, [content]);
 
-	return (
+	// RENDER
+	return (<>
+		{menuState.isOpen && (
+			<BlockSelectionMenu
+				onSelect  = {onBlockSelect}
+				onClose   = {closeMenu}
+			/>
+		)}
 		<ContentEditable
 			className = {styles.TextBlock}
 			id        = {props.id}
@@ -64,8 +111,9 @@ function TextBlock(props) {
 			html      = {content}
 			onChange  = {handleChange}
 			onKeyDown = {onKeyDown}
+			onKeyUp   = {onKeyUp}
 		/>
-	);
+	</>);
 
 }
 

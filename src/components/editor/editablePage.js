@@ -6,7 +6,6 @@ import { setCaretToEnd } from "../../utilities/editor";
 import styles from "../../styles/editablePage.module.css";
 
 
-
 const initialBlocks = [
 	{
 		id   : uuid(),
@@ -52,17 +51,13 @@ function EditablePage() {
 	const [focusedId, setFocusedId] = useState(initialBlocks[0].id);
 
 	function updatePage(updatedBlock) {
-		// Create a copy of blocks state to mutate (since we shouldn't modify state directly)
 		const updatedBlocks = [...blocks];
-		// Find the index of `updatedBlock` in `updatedBlocks`
 		const index = updatedBlocks.map(block => block.id).indexOf(updatedBlock.id);
-		// Overwrite properties of block at index in `updatedBlocks` with `updatedBlock`
+
 		updatedBlocks[index] = updatedBlock;
-		// Set state of blocks to `updatedBlocks`
 		setBlocks(updatedBlocks);
 	}
 	function insertBlock(currentBlock) {
-		// Create the block to be inserted after `currentBlock`
 		const newBlock = {
 			id   : uuid(),
 			type : 'text',
@@ -70,22 +65,18 @@ function EditablePage() {
 				content : ''
 			}
 		};
-		// Create a copy of blocks state to mutate (since we shouldn't modify state directly)
 		const updatedBlocks = [...blocks];
-		// Find the index of `currentBlock` in `updatedBlocks`
 		const index = updatedBlocks.map(block => block.id).indexOf(currentBlock.id);
-		// Splice `newBlock` into `updatedBlocks` right after `currentBlock`
+
 		updatedBlocks.splice(index + 1, 0, newBlock);
-		// Set state of blocks to `updatedBlocks` and then focus the element corresponding to `newBlock`
 		setBlocks(updatedBlocks);
-		// TODO: Set focus to block just inserted
 		setFocusedId(updatedBlocks[index + 1].id)
 	}
 	function removeBlock(currentBlock) {
 		const updatedBlocks = [...blocks];
 		let index = updatedBlocks.map(block => block.id).indexOf(currentBlock.id);
-		// TODO: Allow deletion of first block if there is another block after it
 		if (index && index > 0) {
+			// TODO: Allow deletion of first block if there is another block after it
 			updatedBlocks.splice(index, 1);
 			setBlocks(updatedBlocks);
 			setFocusedId(updatedBlocks[index - 1].id);

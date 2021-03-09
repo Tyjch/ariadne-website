@@ -1,0 +1,44 @@
+.BlockSelectionMenu {
+    position        : absolute;
+    display         : flex;
+    flex-direction  : column;
+    justify-content : flex-end;
+}
+
+.Items {
+    width : 200px;
+    background    : #000000;
+    border-radius : 0.5rem;
+    box-shadow    : rgba(15, 15, 15, 0.05) 0 0 0 1px,
+                    rgba(15, 15, 15, 0.1)  0 3px 6px,
+                    rgba(15, 15, 15, 0.2)  0 9px 24px;
+}
+
+.Item {
+    display        : flex;
+    flex-direction : row;
+    align-items    : center;
+
+    color   : white;
+    padding : 5px;
+}
+
+.SelectedItem {
+    display        : flex;
+    flex-direction : row;
+    align-items    : center;
+
+    color   : #4ba6ec;
+    padding : 5px;
+}
+
+.Icon {
+    display         : flex;
+    align-items     : center;
+    justify-content : center;
+    padding         : 5px;
+}
+
+.Label {
+    margin : 5px;
+}

@@ -43,7 +43,7 @@ function EditableBlock(props) {
 		}
 	};
 
-	// METHODS
+	// OTHER METHODS
 	function startDrag(event) {
 		dragControls.start(event, { snapToCursor: true });
 	}
@@ -88,7 +88,7 @@ function EditableBlock(props) {
 		<motion.div> { wrapChild() } </motion.div>
 	</>);
 
-	// RENDERER
+	// region RENDERER
 	return (
 		<motion.div
 			// CSS Props
@@ -106,7 +106,7 @@ function EditableBlock(props) {
 			whileDrag       = {"dragged"}
 			// Animate Presence
 			exit            = {{ opacity : 0 }}
-			exitBeforeEnter = {false}
+			exitBeforeEnter = {true}
 			// Dragging
 			drag            = {"y"}
 			dragControls    = {dragControls}
@@ -119,6 +119,8 @@ function EditableBlock(props) {
 			{blockContent}
 		</motion.div>
 	);
+	// endregion
+
 }
 
 export { EditableBlock };

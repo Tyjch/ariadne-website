@@ -7,5 +7,14 @@
 }
 
 .Content {
+    margin : 20px 20px 20px -45px;
+}
 
+.SaveButton {
+    color         : white;
+    background    : #4ba6ec;
+    outline       : 0 solid transparent;
+    border        : white;
+    border-radius : 3px;
+    padding       : 15px;
 }
